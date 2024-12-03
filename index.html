@@ -64,9 +64,15 @@
           // Get current date and time
           const currentDate = new Date();
           //const formattedDate = currentDate.toLocaleString(); // Formats to a readable date-time string
-          const formattedDate = currentDate.toLocaleString('en-US', {
-                weekday: 'long', year: 'numeric', month: 'long', day: 'numeric',
-                hour: 'numeric', minute: 'numeric', second: 'numeric', hour12: true
+          const formattedDate = currentDate.toLocaleString('en-GB', {
+            weekday: 'long',   // e.g., "Monday"
+            year: 'numeric',   // e.g., "2024"
+            month: 'long',     // e.g., "December"
+            day: 'numeric',    // e.g., "3"
+            hour: 'numeric',   // e.g., "14"
+            minute: 'numeric', // e.g., "30"
+            //second: 'numeric', // e.g., "45"
+            hour12: false      // 24-hour time format
           });
 
           // Format temperature and dew point to 1 decimal place
@@ -76,7 +82,6 @@
           document.getElementById('result').innerHTML = `
             <strong>Time of Reading:</strong> ${formattedDate} <br>
             <strong>Location:</strong> ${data.name} <br>
-            <strong>Time:</strong> ${data.time} <br>
             <strong>Temperature:</strong> ${formattedTemperature}°C <br>
             <strong>Humidity:</strong> ${humidity}% <br>
             <strong>Dew Point:</strong> ${formattedDewPoint}°C
