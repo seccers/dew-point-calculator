@@ -60,17 +60,23 @@
           const temperature = data.main.temp;
           const humidity = data.main.humidity;
           const dewPoint = calculateDewPoint(temperature, humidity);
+
+          // Format temperature and dew point to 1 decimal place
+          const formattedTemperature = temperature.toFixed(1);
+          const formattedDewPoint = dewPoint.toFixed(1);
+
           document.getElementById('result').innerHTML = `
             <strong>Location:</strong> ${data.name} <br>
-            <strong>Temperature:</strong> ${temperature}°C <br>
+            <strong>Temperature:</strong> ${formattedTemperature}°C <br>
             <strong>Humidity:</strong> ${humidity}% <br>
-            <strong>Dew Point:</strong> ${dewPoint.toFixed(1)}°C
-          `;
+            <strong>Dew Point:</strong> ${formattedDewPoint}°C
+      `    ;
         })
         .catch(error => {
           document.getElementById('result').innerHTML = "Error fetching weather data.";
           console.error('Error:', error);
         });
+
     }
 
     // Function to calculate dew point using temperature and humidity
