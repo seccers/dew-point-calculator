@@ -92,13 +92,16 @@
           // Format temperature and dew point to 1 decimal place
           const formattedTemperature = temperature.toFixed(1);
           const formattedDewPoint = dewPoint.toFixed(1);
+          // Calculate new relative humidity at 16°C
+          const newHumidity = newRelativeHumidity(temperature, humidity / 100, 16).toFixed(1);
 
           document.getElementById('result').innerHTML = `
             <strong>DateTime:</strong> ${formattedDate} <br>
             <strong>Location:</strong> ${data.name} <br>
             <strong>Temperature:</strong> ${formattedTemperature}°C <br>
             <strong>Humidity:</strong> ${humidity}% <br>
-            <strong>Dew Point:</strong> ${formattedDewPoint}°C
+            <strong>Dew Point:</strong> ${formattedDewPoint}°C <br>
+            <strong>New Relative Humidity at 16°C:</strong> ${newHumidity}%
       `    ;
         })
         .catch(error => {
@@ -116,6 +119,26 @@
       const dewPoint = (b * alpha) / (a - alpha);
       return dewPoint;
     }
+
+    // Function to calculate the saturation vapor pressure (e_s) at a given temperature
+    function saturationVaporPressure(temp) {
+      return 6.112 * Math.exp((17.67 * temp) / (temp + 243.5));
+    }
+
+    // Function to calculate the actual vapor pressure (e) based on temperature and relative humidity
+    function vaporPressure(temp, humidity) {
+      const e_s = saturationVaporPressure(temp);
+      return e_s * humidity;
+    }
+
+    // Function to calculate the new relative humidity at a new temperature (16°C)
+    function newRelativeHumidity(tempInitial, humidityInitial, tempNew) {
+      const e = vaporPressure(tempInitial, humidityInitial);  // Vapor pressure at initial conditions
+      const e_sNew = saturationVaporPressure(tempNew);  // Saturation vapor pressure at new temperature
+      const RHNew = e / e_sNew;  // New relative humidity as a decimal
+      return RHNew * 100;  // Convert to percentage
+    }
+
 
     // Function to display error messages for geolocation
     function showError(error) {
