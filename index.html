@@ -95,7 +95,7 @@
           // Calculate new relative humidity at 16°C
           const newHumidity = newRelativeHumidity(temperature, humidity / 100, 16).toFixed(0);
           // Determine if the windows should be opened or kept closed
-          const windowAdvice = newHumidity < 60 ? "Open the windows!" : "Keep windows closed!";
+          const windowAdvice = newHumidity <= 50 ? "Opening the windows will dry out your house!" : "Keep windows closed!";
           
           document.getElementById('result').innerHTML = `
             <strong>DateTime:</strong> ${formattedDate} <br>
