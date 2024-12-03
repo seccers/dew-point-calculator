@@ -63,8 +63,11 @@
 
           // Get current date and time
           const currentDate = new Date();
-          const formattedDate = currentDate.toLocaleString(); // Formats to a readable date-time string
-
+          //const formattedDate = currentDate.toLocaleString(); // Formats to a readable date-time string
+          const formattedDate = currentDate.toLocaleString('en-US', {
+                weekday: 'long', year: 'numeric', month: 'long', day: 'numeric',
+                hour: 'numeric', minute: 'numeric', second: 'numeric', hour12: true
+          });
 
           // Format temperature and dew point to 1 decimal place
           const formattedTemperature = temperature.toFixed(1);
