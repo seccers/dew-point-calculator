@@ -37,17 +37,17 @@
     <div id="result"></div>
   </div>
 
-<script>
-  // This function will be called when the page loads
-  window.onload = function() {
-    if (navigator.geolocation) {
-      // If geolocation is supported, get the user's location
-      navigator.geolocation.getCurrentPosition(getWeatherData);
-    } else {
-      // If geolocation is not supported, show an error message
-      document.getElementById('result').innerHTML = "Geolocation is not supported by this browser.";
-    }
-  };
+  <script>
+    // This function will be called when the page loads
+    window.onload = function() {
+      if (navigator.geolocation) {
+        // If geolocation is supported, get the user's location
+        navigator.geolocation.getCurrentPosition(getWeatherData);
+      } else {
+        // If geolocation is not supported, show an error message
+        document.getElementById('result').innerHTML = "Geolocation is not supported by this browser.";
+      }
+    };
   
 
     // Function to start geolocation and fetch weather data
