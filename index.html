@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dew Point Calculator</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      background-color: #f0f8ff;
+      margin: 0;
+    }
+    .container {
+      text-align: center;
+      background-color: #fff;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+    h1 {
+      margin-bottom: 20px;
+    }
+    #result {
+      margin-top: 20px;
+      font-size: 1.2em;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Dew Point Calculator</h1>
+    <button id="getDewPoint" onclick="startGeolocation()">Get Dew Point</button>
+    <div id="result"></div>
+  </div>
+
+  <script>
+    // Function to start geolocation and fetch weather data
+    function startGeolocation() {
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(getWeatherData, showError);
+      } else {
+        document.getElementById('result').innerHTML = "Geolocation is not supported by this browser.";
+      }
+    }
+
+    // Function to fetch weather data from OpenWeatherMap
+    function getWeatherData(position) {
+      const lat = position.coords.latitude;
+      const lon = position.coords.longitude;
+      const apiKey = 'e8582e244d0839956782c1533faa5dd7'; // Replace with your OpenWeatherMap API key
+      const apiUrl = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${apiKey}&units=metric`;
+
+      fetch(apiUrl)
+        .then(response => response.json())
+        .then(data => {
+          const temperature = data.main.temp;
+          const humidity = data.main.humidity;
+          const dewPoint = calculateDewPoint(temperature, humidity);
+          document.getElementById('result').innerHTML = `
+            <strong>Location:</strong> ${data.name} <br>
+            <strong>Temperature:</strong> ${temperature}°C <br>
+            <strong>Humidity:</strong> ${humidity}% <br>
+            <strong>Dew Point:</strong> ${dewPoint.toFixed(2)}°C
+          `;
+        })
+        .catch(error => {
+          document.getElementById('result').innerHTML = "Error fetching weather data.";
+          console.error('Error:', error);
+        });
+    }
+
+    // Function to calculate dew point using temperature and humidity
+    function calculateDewPoint(temp, humidity) {
+      const a = 17.27;
+      const b = 237.7;
+      const alpha = ((a * temp) / (b + temp)) + Math.log(humidity / 100);
+      const dewPoint = (b * alpha) / (a - alpha);
+      return dewPoint;
+    }
+
+    // Function to display error messages for geolocation
+    function showError(error) {
+      switch (error.code) {
+        case error.PERMISSION_DENIED:
+          document.getElementById('result').innerHTML = "User denied the request for Geolocation.";
+          break;
+        case error.POSITION_UNAVAILABLE:
+          document.getElementById('result').innerHTML = "Location information is unavailable.";
+          break;
+        case error.TIMEOUT:
+          document.getElementById('result').innerHTML = "The request to get user location timed out.";
+          break;
+        default:
+          document.getElementById('result').innerHTML = "An unknown error occurred.";
+          break;
+      }
+    }
+  </script>
+</body>
+</html>
