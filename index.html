@@ -14,7 +14,7 @@
   <style>
     body {
       <!-- Google Tag Manager (noscript) -->
-        <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-WWR828FD" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+        <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=tomid" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       <!-- End Google Tag Manager (noscript) -->
     
       font-family: Arial, sans-serif;
@@ -76,7 +76,7 @@
     function getWeatherData(position) {
       const lat = position.coords.latitude;
       const lon = position.coords.longitude;
-      const apiKey = 'e8582e244d0839956782c1533faa5dd7'; // Replace with your OpenWeatherMap API key
+      const apiKey = 'tom_api'; // Replace with your OpenWeatherMap API key
       const apiUrl = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${apiKey}&units=metric`;
 
       fetch(apiUrl)
